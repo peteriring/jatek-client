@@ -5,14 +5,12 @@ export default class controller {
     return 'DashboardController';
   }
 
-  constructor($log, $element, SpriteLoader, Controls, Application, Character) {
+  constructor($log, $element, $socket, SpriteLoader, Controls, Application, Character) {
     $log.debug('DashboardController');
     $element.find('div').append(Application.view);
-    const bunny = Character;// SpriteLoader.get('bunny.png');
+    const bunny = Character;
     const bunny2 = SpriteLoader.get('bunny.png');
 
-    // bunny.x = Application.renderer.width / 2;
-    // bunny.y = Application.renderer.height / 2;
     Application.stage.x = (Application.renderer.width / 2);
     Application.stage.y = (Application.renderer.height / 2);
 
@@ -23,6 +21,8 @@ export default class controller {
       Application.stage.x = -bunny.x + (Application.renderer.width / 2);
       Application.stage.y = -bunny.y + (Application.renderer.height / 2);
     });
+
+    $socket.on('refresh', (data) => console.log('refresh', data));
 
     Application.ticker.add((delta) => {
       Application.stage.refresh(delta);

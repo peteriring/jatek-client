@@ -20,6 +20,16 @@ const config = convict({
     default: 'http://mocked_url/',
     env: 'API_URL',
   },
+  socketUrl: {
+    doc: 'url of the websocket connection',
+    format: function check(value) {
+      if (!/^https?/.test(value)) {
+        throw new Error('must have a protocol');
+      }
+    },
+    default: 'http://mocked_url/',
+    env: 'SOCKET_URL',
+  },
   port: {
     doc: 'The port to bind.',
     format: 'port',
@@ -36,6 +46,7 @@ module.exports = (() => {
     .on('data', chunk => stream.write(chunk
       .replace('@@env', settings.env)
       .replace('@@apiUrl', settings.apiUrl)
+      .replace('@@socketUrl', settings.socketUrl)
       .replace('@@port', settings.port)
     ));
   console.log('CONFIG:', config.toString());

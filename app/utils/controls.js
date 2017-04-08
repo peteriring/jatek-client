@@ -52,10 +52,16 @@ export default class Controls extends EventEmitter {
       $interval.cancel(cache.promise);
       cache.promise = null;
     };
-    document.addEventListener('keypress', () => {
+    document.addEventListener('keypress', (e) => {
       cache.mousedown = false;
       this.stop();
-      $log.debug('keypress');
+      if (!cache.promise) {
+        Object.assign(cache, {
+          promise: $interval(() => this.emit('spellcast', { code: e.charCode }), cache.refreshrate * 2, 10),
+        });
+        cache.promise.then(() => this.stop());
+        cache.promise.then(() => this.emit('idle'));
+      }
     });
   }
 

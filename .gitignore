@@ -39,7 +39,7 @@ jspm_packages
 bower_components
 lib
 dist
-app/common/config.js
+app/config.js
 www/
 .env
 

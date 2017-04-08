@@ -7,16 +7,15 @@ export default class Character extends Animation {
     return 'Character';
   }
 
-  constructor(SpriteLoader, Controls) {
+  constructor(SpriteLoader, Controls, $socket) {
     const { src, json } = library['char2.png'];
     super(src, json);
     this.speed = 5;
     this.Controls = Controls;
+    this.$socket = $socket;
     Controls.on('move', data => this.move(data));
-    // const colorMatrix = new PIXI.filters.ColorMatrixFilter();
-    // console.log({ colorMatrix })
-    // this.filters = [colorMatrix];
-    // colorMatrix.toBGR(2); this.tint = Math.random() * 0xFFFFFF;
+    Controls.on('spellcast', data => this.cast(data));
+    Controls.on('idle', data => this.idle(data));
   }
 
   move(target) {
@@ -35,6 +34,18 @@ export default class Character extends Animation {
       this.x += this.speed * Math.cos(phi);
       this.y += this.speed * Math.sin(phi);
     }
+    this.$socket.emit('refresh', { x: this.x, y: this.y, currentFrame: this.currentFrame });
+  }
+  cast() {
+    const fixed = 8 * 8 + this.orientation * 3;
+    const counter = Math.max(this.currentFrame - fixed, 0);
+    const nextFrame = fixed + ((counter + 0.2) % 3);
+    this.goto(nextFrame);
+    this.$socket.emit('refresh', { x: this.x, y: this.y, currentFrame: this.currentFrame });
+  }
+  idle() {
+    this.$socket.emit('spellcast', { x: this.x, y: this.y, currentFrame: this.currentFrame });
+    this.goto((7 * 8) + this.orientation);
   }
 
   refresh(delta) {
