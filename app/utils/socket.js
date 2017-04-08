@@ -10,10 +10,10 @@ export default class Socket {
   }
 
   on() {
-    this.socket.on(arguments);
+    this.socket.on(...arguments);
   }
 
   emit() {
-    this.socket.emit(arguments);
+    this.socket.emit(...arguments);
   }
 }

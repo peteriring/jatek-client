@@ -16,6 +16,8 @@ export default class Character extends Animation {
     Controls.on('move', data => this.move(data));
     Controls.on('spellcast', data => this.cast(data));
     Controls.on('idle', data => this.idle(data));
+    this.id = Math.random();
+    $socket.emit('joined', { name: 'asd', gender: 'male', id: this.id });
   }
 
   move(target) {
@@ -34,17 +36,17 @@ export default class Character extends Animation {
       this.x += this.speed * Math.cos(phi);
       this.y += this.speed * Math.sin(phi);
     }
-    this.$socket.emit('refresh', { x: this.x, y: this.y, currentFrame: this.currentFrame });
+    this.$socket.emit('refresh', { x: this.x, y: this.y, currentFrame: this.currentFrame, id: this.id });
   }
   cast() {
     const fixed = 8 * 8 + this.orientation * 3;
     const counter = Math.max(this.currentFrame - fixed, 0);
     const nextFrame = fixed + ((counter + 0.2) % 3);
     this.goto(nextFrame);
-    this.$socket.emit('refresh', { x: this.x, y: this.y, currentFrame: this.currentFrame });
+    this.$socket.emit('refresh', { x: this.x, y: this.y, currentFrame: this.currentFrame, id: this.id });
   }
   idle() {
-    this.$socket.emit('spellcast', { x: this.x, y: this.y, currentFrame: this.currentFrame });
+    // this.$socket.emit('spellcast', { x: this.x, y: this.y, currentFrame: this.currentFrame });
     this.goto((7 * 8) + this.orientation);
   }
 
