@@ -1,0 +1,20 @@
+{
+  "extends": ["codingsans/babel"],
+  "globals": {
+    "document": true,
+    "angular": true,
+    "cordova": true,
+    "self": true,
+    "window": true,
+    "localStorage": true,
+    "describe": true,
+    "expect": true,
+    "it": true,
+    "inject": true,
+    "beforeEach": true
+  },
+  "rules": {
+    "func-style": ["error", "declaration", { "allowArrowFunctions": true }],
+    "curly": 0
+  }
+}

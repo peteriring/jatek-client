@@ -1,0 +1,3 @@
+#idoli-student
+
+`npm start`
