@@ -28,7 +28,7 @@ export default class controller {
         if (!child) return;
         child.x = obj.x;
         child.y = obj.y;
-        child.goto(obj.currentFrame);
+        child.goto(obj.currentFrame || 56);
       });
     });
     $socket.on('new player', (data) => {
@@ -47,7 +47,7 @@ export default class controller {
         Application.stage.addChild(child);
         child.x = obj.x;
         child.y = obj.y;
-        child.goto(obj.currentFrame);
+        child.goto(56);
       });
     });
 
