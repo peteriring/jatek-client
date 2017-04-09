@@ -1,3 +1,3 @@
-#idoli-student
+#jatek-client
 
 `npm start`

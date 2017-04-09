@@ -7,17 +7,15 @@ export default class Character extends Animation {
     return 'Character';
   }
 
-  constructor(SpriteLoader, Controls, $socket) {
+  constructor($socket, Controls) {
     const { src, json } = library['char2.png'];
     super(src, json);
     this.speed = 5;
-    this.Controls = Controls;
     this.$socket = $socket;
+    this.Controls = Controls;
     Controls.on('move', data => this.move(data));
     Controls.on('spellcast', data => this.cast(data));
     Controls.on('idle', data => this.idle(data));
-    this.id = Math.random();
-    $socket.emit('joined', { name: 'asd', gender: 'male', id: this.id });
   }
 
   move(target) {

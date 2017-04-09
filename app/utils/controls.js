@@ -5,7 +5,7 @@ export default class Controls extends EventEmitter {
     return 'Controls';
   }
 
-  constructor($log, $interval, Application) {
+  constructor($interval, Application) {
     super();
     const cache = {
       target: {},
